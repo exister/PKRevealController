@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
     spec.summary = 'A view controller containers for iOS, enabling you to present multiple controllers on top of one another.'
     spec.license = { :type => 'MIT' }
     spec.requires_arc = true
-    spec.source = { :git => 'https://github.com/pkluz/PKRevealController.git', :tag => "v#{spec.version}" }
+    spec.source = { :git => 'https://github.com/exister/PKRevealController.git' }
     spec.source_files = 'Source/**/*.{h,m}'
     spec.framework = 'UIKit', 'QuartzCore', 'Foundation'
     spec.platform = :ios, '6.0'

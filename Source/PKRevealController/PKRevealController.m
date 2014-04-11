@@ -725,6 +725,8 @@ typedef struct
     _frontViewInteraction.recognizerFlags.previousTouchPoint = _frontViewInteraction.recognizerFlags.initialTouchPoint;
     _frontViewInteraction.initialFrontViewPosition = self.frontView.layer.position;
     _frontViewInteraction.isInteracting = YES;
+
+    [self.leftViewController.view setUserInteractionEnabled:NO];
     
     [self updateRearViewVisibility];
 }
@@ -733,6 +735,8 @@ typedef struct
 {
     _frontViewInteraction.recognizerFlags.currentTouchPoint = [recognizer translationInView:self.frontView];
     CGFloat newX = _frontViewInteraction.initialFrontViewPosition.x + (_frontViewInteraction.recognizerFlags.initialTouchPoint.x + _frontViewInteraction.recognizerFlags.currentTouchPoint.x);
+
+    [self.leftViewController.view setUserInteractionEnabled:NO];
     
     if (![self hasLeftViewController] && newX >= [self centerPointForState:PKRevealControllerShowsFrontViewController].x)
     {
@@ -780,6 +784,8 @@ typedef struct
     _frontViewInteraction.recognizerFlags.currentTouchPoint = CGPointZero;
     _frontViewInteraction.initialFrontViewPosition = CGPointZero;
     _frontViewInteraction.isInteracting = NO;
+
+    [self.leftViewController.view setUserInteractionEnabled:YES];
     
     if ([self shouldMoveFrontViewLeftwardsForVelocity:[recognizer velocityInView:self.view].x])
     {
