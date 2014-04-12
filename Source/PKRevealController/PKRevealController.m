@@ -41,6 +41,7 @@
 #define DEFAULT_RECOGNIZES_PAN_ON_FRONT_VIEW_VALUE YES
 #define DEFAULT_RECOGNIZES_RESET_TAP_ON_FRONT_VIEW_VALUE YES
 #define DEFAULT_RECOGNIZES_RESET_TAP_ON_FRONT_VIEW_IN_PRESENTATION_MODE_VALUE YES
+#define DEFAULT_STUB_STATUS_BAR_ABOVE_FRONT_VIEW_VALUE NO
 
 NSString * const PKRevealControllerAnimationDurationKey = @"animationDuration";
 NSString * const PKRevealControllerAnimationCurveKey = @"animationCurve";
@@ -458,6 +459,20 @@ typedef struct
     }
 }
 
+- (void)setStubStatusBarAboveFrontView:(BOOL)stubStatusBarAboveFrontView {
+    if (_stubStatusBarAboveFrontView != stubStatusBarAboveFrontView) {
+
+        _stubStatusBarAboveFrontView = stubStatusBarAboveFrontView;
+
+        self.frontView.stubStatusBar = stubStatusBarAboveFrontView;
+    }
+}
+
+- (void)setStubStatusBarImage:(UIImage *)stubStatusBarImage {
+    _stubStatusBarImage = stubStatusBarImage;
+    [self.frontView setStubStatusBarImage:stubStatusBarImage];
+}
+
 - (void)setMinimumWidth:(CGFloat)minWidth
            maximumWidth:(CGFloat)maxWidth
       forViewController:(UIViewController *)controller
@@ -552,6 +567,7 @@ typedef struct
     _leftViewWidthRange = DEFAULT_LEFT_VIEW_WIDTH_RANGE;
     _rightViewWidthRange = DEFAULT_RIGHT_VIEW_WIDTH_RANGE;
     _recognizesResetTapOnFrontViewInPresentationMode = DEFAULT_RECOGNIZES_RESET_TAP_ON_FRONT_VIEW_IN_PRESENTATION_MODE_VALUE;
+    _stubStatusBarAboveFrontView = DEFAULT_STUB_STATUS_BAR_ABOVE_FRONT_VIEW_VALUE;
 }
 
 - (void)setupContainerViews
@@ -559,7 +575,8 @@ typedef struct
     self.rightView = [[PKRevealControllerView alloc] initWithFrame:self.view.bounds];
     self.leftView = [[PKRevealControllerView alloc] initWithFrame:self.view.bounds];
     self.frontView = [[PKRevealControllerView alloc] initWithFrame:self.view.bounds];
-    
+    self.frontView.stubStatusBar = self.stubStatusBarAboveFrontView;
+
     self.rightView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.leftView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.frontView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);

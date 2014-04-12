@@ -31,7 +31,24 @@
 
 static NSString *kShadowTransitionAnimationKey = @"shadowTransitionAnimation";
 
+@interface PKRevealControllerView ()
+@property(nonatomic, strong) UIImageView *stubView;
+@end
+
 @implementation PKRevealControllerView
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setup];
+    }
+
+    return self;
+}
+
+- (void)setup {
+    _stubStatusBar = NO;
+}
 
 #pragma mark - Accessors
 
@@ -40,9 +57,10 @@ static NSString *kShadowTransitionAnimationKey = @"shadowTransitionAnimation";
     if (_viewController != viewController)
     {
         _viewController = viewController;
-        _viewController.view.frame = self.bounds;
         _viewController.view.autoresizingMask = self.autoresizingMask;
     }
+
+    _viewController.view.frame = self.frameForChildView;
 }
 
 - (void)setShadow:(BOOL)shadow
@@ -65,6 +83,42 @@ static NSString *kShadowTransitionAnimationKey = @"shadowTransitionAnimation";
         self.layer.shadowOpacity = 0.0;
         self.layer.shadowRadius = 0.0;
         self.layer.shadowPath = nil;
+    }
+}
+
+- (void)setStubStatusBar:(BOOL)stubStatusBar {
+    if (_stubStatusBar == stubStatusBar) {
+        return;
+    }
+    _stubStatusBar = stubStatusBar;
+
+    if (stubStatusBar) {
+        if (!self.stubView.superview) {
+            [self addSubview:self.stubView];
+        }
+    }
+    else {
+        [self.stubView removeFromSuperview];
+    }
+    self.viewController.view.frame = self.frameForChildView;
+}
+
+- (UIImageView *)stubView {
+    if (!_stubView) {
+        _stubView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), 20)];
+    }
+    return _stubView;
+}
+
+- (CGRect)frameForChildView {
+    if (self.stubStatusBar) {
+        CGRect frame = self.bounds;
+        frame.origin.y = 20;
+        frame.size.height = CGRectGetHeight(self.bounds) - 20;
+        return frame;
+    }
+    else {
+        return self.bounds;
     }
 }
 
@@ -101,6 +155,10 @@ static NSString *kShadowTransitionAnimationKey = @"shadowTransitionAnimation";
 - (void)setUserInteractionForContainedViewEnabled:(BOOL)userInteractionEnabled
 {
     [self.viewController.view setUserInteractionEnabled:userInteractionEnabled];
+}
+
+- (void)setStubStatusBarImage:(UIImage *)image {
+    self.stubView.image = image;
 }
 
 @end

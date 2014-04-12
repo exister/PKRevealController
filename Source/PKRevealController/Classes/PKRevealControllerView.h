@@ -32,9 +32,11 @@
 #pragma mark - Properties
 @property (nonatomic, assign, readwrite, getter = hasShadow) BOOL shadow;
 @property (nonatomic, weak, readwrite) UIViewController *viewController;
+@property (nonatomic, assign) BOOL stubStatusBar;
 
 #pragma mark - Methods
 - (void)updateShadowWithAnimationDuration:(NSTimeInterval)duration;
 - (void)setUserInteractionForContainedViewEnabled:(BOOL)userInteractionEnabled;
+- (void)setStubStatusBarImage:(UIImage *)image;
 
 @end

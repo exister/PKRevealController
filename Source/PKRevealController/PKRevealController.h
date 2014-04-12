@@ -75,6 +75,9 @@ FOUNDATION_EXTERN NSString * const PKRevealControllerRecognizesResetTapOnFrontVi
 /// The view controller on the right.
 @property (nonatomic, readwrite) UIViewController *rightViewController;
 
+@property (nonatomic, assign) BOOL stubStatusBarAboveFrontView;
+@property (nonatomic, readwrite) UIImage *stubStatusBarImage;
+
 /// The gesture recognizer that is used to enable pan based reveal. By default this recognizer is added to the front view's container. Inactive and at your disposal if front view panning is disabled.
 @property (nonatomic, readonly) UIPanGestureRecognizer *revealPanGestureRecognizer;
 
